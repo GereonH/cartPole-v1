@@ -4,6 +4,7 @@ import random
 import numpy as np
 import tflearn
 import matplotlib.pyplot as plt
+import pandas as pd
 import tensorflow as tf
 from tflearn.layers.core import input_data, dropout, fully_connected
 from tflearn.layers.estimator import regression
@@ -238,9 +239,13 @@ for d in range(durchläufe):
 print(avgScores)
 print(scoreRequirements)
 
+df = pd.DataFrame(avgScores)
+rollingMean = df.rolling(window=5).mean()
+
 plt.title("Score abhängig vom Score Requirement")
 plt.plot(avgScores, 'b-', label="Durchschnitts-Score")
 plt.plot(scoreRequirements, 'r-', label="Score Requirement")
+plt.plot(rollingMean, 'g-',linewidth=4, label="Gleitender Mittelwert")
 plt.xlabel('Score Requirement')
 plt.ylabel('Durchschnitts-Score')
 plt.legend()
